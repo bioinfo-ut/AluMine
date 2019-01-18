@@ -38,7 +38,7 @@ foreach $f (@files){
     $alt_minus_genotypes = $alt_plus_genotypes = 0;
     $alt_minus_het_genotypes = $alt_minus_hom_genotypes = 0;
     $alt_plus_het_genotypes = $alt_plus_hom_genotypes = 0;
-    $i = -1;
+    $i = 0;
     open F1, $f or die;
     while (<F1>){
         if (/^#/){
