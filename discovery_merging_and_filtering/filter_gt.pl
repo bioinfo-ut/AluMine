@@ -9,8 +9,7 @@
 # mark ZRP zero freq REF-plus (OK to keep)
 # mark the rest as OK
 
-
-chdir "/storage7/ctg/uued/calling_gmer/calls/ALU_SNP/";
+# Define cutoffs
 $critical_proportion_of_expected_gt_for_individual = 0.50;
 $critical_proportion_of_expected_gt_for_marker = 0.90;
 $critical_hwe_chisquare = 25.97828096; # P<0.01, with multiple testing: P=0.01/28,962 => 3.45E-7 => chidist(25.978,1)
@@ -18,7 +17,9 @@ $critical_mfb_chisquare = 6.634896601; # P<0.01, without multiple testing: diffe
 $critical_likelihood_of_the_genotype = 0.9; # don't use any genotypes that have lower likelihood than this
 $critical_total_kmer_count = 5;             # don't use any genotypes that are based on k-mer frequency lower than 5 (median diploid depth of coverage in this set is 22.8)
 
-
+# Input-output files
+#chdir "/storage7/ctg/uued/calling_gmer/calls/ALU_SNP/";
+chdir "/storage7/ctg/uued/calling_gmer/ALU2/calls/";
 $outfile2 = "/mambakodu/mremm/filter_gt_files.txt";
 $outfile3 = "/mambakodu/mremm/filter_gt_markers.txt";
 # Frequency of autosomal genotypes
@@ -109,9 +110,7 @@ foreach $f (@files){
     }
     close F1;
     $expected_genotype_proportion = $expected_genotype / ($expected_genotype + $unexpected_genotype);
-    printf (F2 "%s Processed %d lines: SEX: %s COV: %.3f EGP: %.3f EXP: %d ALT_PLUS: %d ALT_MINUS: %d AB_PLUS: %d BB_PLUS: %d AB_MINUS: %d BB_MINUS: %d\n",
-      $f, $i, $sex, $cov, $expected_genotype_proportion, $expected_genotype, $alt_plus_genotypes, $alt_minus_genotypes,
-      $alt_plus_het_genotypes, $alt_plus_hom_genotypes, $alt_minus_het_genotypes, $alt_minus_hom_genotypes);
+    printf (F2 "%s Processed %d lines: SEX: %s COV: %.3f EGP: %.3f EXP: %d ALT_PLUS: %d ALT_MINUS: %d AB_PLUS: %d BB_PLUS: %d AB_MINUS: %d BB_MINUS: %d\n", $f, $i, $sex, $cov, $expected_genotype_proportion, $expected_genotype, $alt_plus_genotypes, $alt_minus_genotypes, $alt_plus_het_genotypes, $alt_plus_hom_genotypes, $alt_minus_het_genotypes, $alt_minus_hom_genotypes);
 
     # Don't use individuals with poor overall expected genotype rate
     next if ($expected_genotype_proportion < $critical_proportion_of_expected_gt_for_individual);

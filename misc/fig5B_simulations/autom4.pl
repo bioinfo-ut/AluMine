@@ -45,7 +45,7 @@ $alu_seq = "GGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGTGGATCATGAGGTCAGGAGATC
 'TGCCGGGCGC',	'11');
 
 # Generate a collection of Alu signatures according to frequencies given in sig_frequencies
-@sig = (); 
+@sig = ();
 foreach $s (keys %sig_frequencies){
    $n = $sig_frequencies{$s};
    for (1..$n){
@@ -53,7 +53,7 @@ foreach $s (keys %sig_frequencies){
    }
 }
 
-$i = 0; 
+$i = 0;
 foreach $i (0..10){ # $different error rates
    $output_file = "detected_" . $i . "_" . $S . ".txt";
    $mut_file = "mutations_" . $i . "_" . $S . ".txt";
@@ -66,8 +66,8 @@ foreach $i (0..10){ # $different error rates
        push @alu_locations, int(rand()*$nr_lines);
    }
    @sorted_alu_locations = sort { $a <=> $b } @alu_locations;
-   
-   #### Generate random signatures for inserted Alu elements should be inserted
+
+   #### Generate random signatures for inserted Alu elements
    @sorted_alu_signatures = ();
    for ($j=0;$j<1000;$j++){
       $random_int = int(rand()*1000);
@@ -117,14 +117,14 @@ foreach $i (0..10){ # $different error rates
    $fq1 = "reads_1" . $S . ".fq";
    $fq2 = "reads_2" . $S . ".fq";
    # 30x nucleotide coverage
-   # default mutation_rate r=0 (default 0.0015) 
-   # fraction of indels R=0 (default 0.15) 
+   # default mutation_rate r=0 (default 0.0015)
+   # fraction of indels R=0 (default 0.15)
    # fraction of ambiguous nucleotide cutoff A=1.00 (default 0.05) all-N sequences allowed
    $r = $i * 0.0001; # up to 0.010 or 1% per HAPLOID genome. This is 2% per diploid genome.
    system("$wgsim -h -e 0.005 -1 151 -2 151 -r $r -A 1.0 -d 500 -N 306000000 $alt_genome $fq1 $fq2 1>> $mut_file 2>> $stderr_file");
    print "Simulations finished: ";
    print `date`;
-   
+
    #### Detect REF-minus elements #####
    system("cat $fq1 $fq2 | $ref_minus_script > $output_file");
    system("rm -f $fq1 $fq2 $alt_genome");

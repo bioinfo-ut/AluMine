@@ -11,8 +11,8 @@
 
 $aludbfile = "/mambakodu/mremm/ALU_v1.kmer.db";
 $outfile2 = "/mambakodu/mremm/filter_gt_stats.txt";
-chdir "/storage7/ctg/uued/calling_gmer/calls/ALU_SNP/";
-
+#chdir "/storage7/ctg/uued/calling_gmer/calls/ALU_SNP/";
+chdir "/storage7/ctg/uued/calling_gmer/ALU2/calls/";
 $critical_proportion_of_expected_gt_for_individual = 0.50;
 $critical_likelihood_of_the_genotype = 0.9; # don't use any genotypes that have lower likelihood than this
 $critical_total_kmer_count = 5;             # don't use any genotypes that are based on k-mer frequency lower than 5 (median diploid depth of coverage in this set is 22.8)
