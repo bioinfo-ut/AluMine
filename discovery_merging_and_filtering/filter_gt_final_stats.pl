@@ -31,7 +31,8 @@ close DB;
 
 open(F2, '>', $outfile2) or die;
 foreach $f (@files){
-    next if (-s $f < 1000000000 or $f !~ /V538/); # V538* for testing
+    # next if (-s $f < 1000000000 or $f !~ /calls/); # V538* for testing
+    next if ($f !~ /calls/);
     $sex = ""; $gt = "";
     $expected_genotype_proportion = 0;
     $expected_genotype = $unexpected_genotype = 0;
