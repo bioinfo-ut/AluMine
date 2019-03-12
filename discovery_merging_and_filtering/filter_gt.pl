@@ -10,12 +10,13 @@
 # mark the rest as OK
 
 # Define cutoffs
-$critical_proportion_of_expected_gt_for_individual = 0.50;
-$critical_proportion_of_expected_gt_for_marker = 0.90;
 $critical_hwe_chisquare = 25.97828096; # P<0.01, with multiple testing: P=0.01/28,962 => 3.45E-7 => chidist(25.978,1)
 $critical_mfb_chisquare = 6.634896601; # P<0.01, without multiple testing: difference between men BAF and women BAF is suspicious
-$critical_likelihood_of_the_genotype = 0.9; # don't use any genotypes that have lower likelihood than this
-$critical_total_kmer_count = 5;             # don't use any genotypes that are based on k-mer frequency lower than 5 (median diploid depth of coverage in this set is 22.8)
+
+$critical_proportion_of_expected_gt_for_individual = 0.80;
+$critical_proportion_of_expected_gt_for_marker = 0.80;
+$critical_likelihood_of_the_genotype = 0.50; # don't use any genotypes that have lower likelihood than this
+$critical_kmer_count = 3;             # don't use any genotypes that are based on k-mer frequency lower than 5 (median diploid depth of coverage in this set is 22.8)
 
 # Input-output files
 #chdir "/storage7/ctg/uued/calling_gmer/calls/ALU_SNP/";
@@ -76,8 +77,9 @@ foreach $f (@files){
 
         # Additional quality control of genotypes
         if ($tmp[1] ne "NC"){
-            $gt = "NN" if (($tmp[2] < $critical_likelihood_of_the_genotype) or (($tmp[3] + $tmp[4]) < $critical_total_kmer_count));
-            $gt = "NN" if (($tmp[1] eq "AB") and (($tmp[3] < $critical_total_kmer_count) or ($tmp[4] < $critical_total_kmer_count)));
+            $gt = "NN" if ($tmp[2] < $critical_likelihood_of_the_genotype);
+            $gt = "NN" if (($tmp[3] + $tmp[4]) < 2*$critical_kmer_count);
+            $gt = "NN" if (($tmp[1] eq "AB") and (($tmp[3] < $critical_kmer_count) or ($tmp[4] < $critical_kmer_count)));
         }
 
         $gt{$tmp[0]} = $gt;

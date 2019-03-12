@@ -1,15 +1,16 @@
 #!/bin/perl
 
 %tag = ();
-open F, "filter_gt_markers.txt" or die;
+open OUT, ">/mambakodu/mremm/ALU_v1.kmer.db" or die;
+open F, "/mambakodu/mremm/filter_gt_markers.txt" or die;
 while (<F>){
    @tmp = split(/\t/);
    $tag{$tmp[1]} = "OK" if ($tmp[0] eq "OK " or $tmp[0] eq "ZRP");
 }
 
-open DB, "ALL.db" or die;
+open DB, "/mambakodu/mremm/ALL.kmer.db" or die;
 while (<DB>){
    @tmp = split(/\t/);
-   print if ($tag{$tmp[0]} eq "OK" or $tmp[0] !~ /REF/);
+   print OUT if ($tag{$tmp[0]} eq "OK" or $tmp[0] !~ /REF/);
 }
 close DB;

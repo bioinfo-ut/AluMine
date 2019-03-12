@@ -13,9 +13,10 @@ $aludbfile = "/mambakodu/mremm/ALU_v1.kmer.db";
 $outfile2 = "/mambakodu/mremm/filter_gt_stats.txt";
 #chdir "/storage7/ctg/uued/calling_gmer/calls/ALU_SNP/";
 chdir "/storage7/ctg/uued/calling_gmer/ALU2/calls/";
-$critical_proportion_of_expected_gt_for_individual = 0.50;
-$critical_likelihood_of_the_genotype = 0.9; # don't use any genotypes that have lower likelihood than this
-$critical_total_kmer_count = 5;             # don't use any genotypes that are based on k-mer frequency lower than 5 (median diploid depth of coverage in this set is 22.8)
+
+$critical_proportion_of_expected_gt_for_individual = 0.80;
+$critical_likelihood_of_the_genotype = 0.50; # don't use any genotypes that have lower likelihood than this
+$critical_kmer_count = 3;             # don't use any AB genotypes that have either A or B frequency below that. Don't use any genotypes with both allele sum < 2*that
 
 opendir(my $dh, ".") || die "Can't opendir: $!";
 my @files = readdir($dh);
@@ -56,8 +57,9 @@ foreach $f (@files){
 
         # Additional quality control of genotypes
         if ($tmp[1] ne "NC"){
-            $gt = "NN" if (($tmp[2] < $critical_likelihood_of_the_genotype) or (($tmp[3] + $tmp[4]) < $critical_total_kmer_count));
-            $gt = "NN" if (($tmp[1] eq "AB") and (($tmp[3] < $critical_total_kmer_count) or ($tmp[4] < $critical_total_kmer_count)));
+            $gt = "NN" if ($tmp[2] < $critical_likelihood_of_the_genotype);
+            $gt = "NN" if (($tmp[3] + $tmp[4]) < 2*$critical_kmer_count);
+            $gt = "NN" if (($tmp[1] eq "AB") and (($tmp[3] < $critical_kmer_count) or ($tmp[4] < $critical_kmer_count)));
         }
 
         ($chr,$pos,$strand,$type, $dummy) = split(/:/,$tmp[0]);
@@ -89,8 +91,8 @@ foreach $f (@files){
         }
     }
     close F1;
+
     $expected_genotype_proportion = $expected_genotype / ($expected_genotype + $unexpected_genotype);
-    # Don't use individuals with poor overall expected genotype rate
     next if ($expected_genotype_proportion < $critical_proportion_of_expected_gt_for_individual);
 
     printf (F2 "%s Processed %d lines: SEX: %s COV: %.3f EGP: %.3f EXP: %d ALT_PLUS: %d ALT_MINUS: %d AB_PLUS: %d BB_PLUS: %d AB_MINUS: %d BB_MINUS: %d\n",
