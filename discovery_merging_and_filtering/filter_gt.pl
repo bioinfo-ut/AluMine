@@ -16,7 +16,7 @@ $critical_mfb_chisquare = 6.634896601; # P<0.01, without multiple testing: diffe
 $critical_proportion_of_expected_gt_for_individual = 0.80;
 $critical_proportion_of_expected_gt_for_marker = 0.80;
 $critical_likelihood_of_the_genotype = 0.50; # don't use any genotypes that have lower likelihood than this
-$critical_kmer_count = 3;             # don't use any genotypes that are based on k-mer frequency lower than 5 (median diploid depth of coverage in this set is 22.8)
+$critical_kmer_count = 3;             # don't use any genotypes that are based on k-mer frequency lower than 3 (median diploid depth of coverage in this set is 22.8)
 
 # Input-output files
 #chdir "/storage7/ctg/uued/calling_gmer/calls/ALU_SNP/";
