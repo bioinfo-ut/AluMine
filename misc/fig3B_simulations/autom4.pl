@@ -93,9 +93,9 @@ foreach $i (0..10){ # $different error rates
 
       if($. == $sorted_alu_locations[$k]){
          $signature = $sorted_alu_signatures[$k];
-         $tsd_seq = substr($_,-15);
-         $polyA = "A" x (int(rand()*75) + 5);
-         if(rand() < 0.5){
+         $tsd_seq = substr($_,-15); # TSD is constant 15 bp
+         $polyA = "A" x (int(rand()*75) + 5);  # polyA length varies between 5 and 80 nt.
+         if(rand() < 0.5){  # select strand randomly
            print ALU $signature . $alu_seq . $polyA . $tsd_seq . "\n";
            printf(LOG "%s:%09d:fw:REF-minus:%s\t%s\n", $chr, $pos, $signature, $tsd_seq);
          }

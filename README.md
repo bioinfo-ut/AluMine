@@ -9,7 +9,7 @@ git clone https://github.com/bioinfo-ut/AluMine
 ### REF-plus discovery scripts  
 The key steps in REF-plus discovery pipeline are:
 * Search for all potential full-length Alu elements with the script find_ref_plus_candidates.pl. This script searches the reference genome for 10bp Alu element signatures (with 1 mismatch) and for Target Site Duplication sequences within 270-350 bp.
-* BLAST search that chacks whether detected candidate elements are homologous to known Alu elements.
+* BLAST search that checks whether detected candidate elements are homologous to known Alu elements.
 * Search against chimpanzee genome using 25-mer lists. This step removes older elements that are likely to be fixed in both species.
 
 To run the scripts yourself open pipeline_ref_plus.sh in text editor and define paths to FASTA files of the reference genome and chimpanzee genome.
@@ -52,9 +52,12 @@ more pipeline_merging_and_filtering.sh
 
 ### Genotyping
 It is possible to skip the discovery phase and use our database of known Alu insertion polymorphisms (32,786 candidate polymorphisms).  
-The k-mer database for genotyping (ALU_v1.kmer.db) is available at http://bioinfo.ut.ee/FastGT/.
+The k-mer database for genotyping (ALU_v1.kmer.db) is available at [FastGT webpage](http://bioinfo.ut.ee/FastGT/index.php?r=site/page&view=kmers).
 
 ```
 cd ~/AluMine/genotyping
 bash pipeline_genotyping.sh
 ```
+### Citing
+Please cite: Puurand T, Kukuškina V, Pajuste F-D, Remm M. (2019). AluMine: alignment-free method for the discovery of polymorphic Alu element insertions.
+[doi: https://doi.org/10.1101/588434](https://www.biorxiv.org/content/10.1101/588434v1).
