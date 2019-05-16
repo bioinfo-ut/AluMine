@@ -1,9 +1,9 @@
 #! /usr/bin/perl
-# Finds sequences from fasta file all.dat if given names in reference file
-# file name from command-line!
+# Finds sequences from fasta file if given names in reference file
+# Both file names should be given from command-line
 
 $reffile= "$ARGV[0]";
-$infile= "$ARGV[1]"; # "all.dat";
+$infile= "$ARGV[1]";
 $i = 0;
 
 open (REF, "$reffile") or die "$reffile not found
