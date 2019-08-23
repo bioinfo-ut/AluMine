@@ -33,6 +33,7 @@ Before running the REF-minus discovery pipeline, open file pipeline_ref_minus.sh
 cd ~/AluMine/discovery_REF-minus
 bash pipeline_ref_minus.sh
 ```
+pipeline_ref_minus.sh supports input in BAM, single FASTQ, multiple FASTQ and gnuzipped FASTQ formats. 
 
 ### Merging and filtering the k-mer databases
 The following steps are required for additional filtering using genotype data from real individuals
@@ -44,7 +45,7 @@ Remaining Alu-elements were genotyped on 2200 individuals and additional filteri
 * Alu elements with >10% calls with unexpected ploidy were removed.
 * Alu elements with Hardy-Weinberg Equilibrium P-value<1.5E-6 were removed.
 
-These steps are performed separately, their description can be seen in file pipeline_filtering.txt.
+These steps are performed separately, their description can be seen in file filter_gt.pl.
 ```
 cd ~/AluMine/discovery_merging_and_filtering
 more pipeline_merging_and_filtering.sh
@@ -59,5 +60,8 @@ cd ~/AluMine/genotyping
 bash pipeline_genotyping.sh
 ```
 ### Citing
-Please cite: Puurand T, Kukuškina V, Pajuste F-D, Remm M. (2019). AluMine: alignment-free method for the discovery of polymorphic Alu element insertions.
-[doi: https://doi.org/10.1101/588434](https://www.biorxiv.org/content/10.1101/588434v1).
+Please cite: Puurand T, Kukuškina V, Pajuste F-D, Remm M. (2019). AluMine: alignment-free method for the discovery of polymorphic Alu element insertions. Mobile DNA 10:31.
+[https://doi.org/10.1186/s13100-019-0174-3](doi: https://doi.org/10.1186/s13100-019-0174-3).
+
+### Additional data
+Additional material can be downloaded from our webpage at [http://bioinfo.ut.ee/?page_id=167&lang=en](http://bioinfo.ut.ee/?page_id=167&lang=en). Pre-compiled human 25-mer index for REF-minus discovery (57GB) and pre-compiled chimp 32-mer list for REF-plus discovery (27GB) can be downloaded from [http://bioinfo.ut.ee/AluMine/](http://bioinfo.ut.ee/AluMine/).

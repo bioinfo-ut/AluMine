@@ -15,22 +15,31 @@
 # if [ ! -s NA12892_S1.bam ];then
 #   wget http://bioinfo.ut.ee/FastGT/downloads/NA12892_S1.bam
 # fi
-# sample_path="."
-# samples=(NA12891_S1 NA12892_S1)
+#sample_path="."
+#samples=(NA12891_S1 NA12892_S1)
 
 ############# Alternatively define path and ID-s of your own samples: ##########
-# These must be matched with BAM or FASTQ file names
-sample_path="/storage9/db/Illumina/Platinum/ERP001960/bam"
-samples=(NA12877_S1)
+# The sample names must be matched with BAM or FASTQ file names
+# Some examples
+# sample_path="/storage9/db/Illumina/Platinum/ERP001960/bam"
+# samples=(NA12877_S1)
+# sample_path="/storage10/tarmo"
+# samples=(V03287  V04319  V04696  V09393  V09650  V10501  V10676  V11780  V12862  V13558  V19326  V25032  V25613  V27254)
+# sample_path="/storage9/db/Illumina/Platinum/ERP001960/fastq"
+# samples=(ERR194146 ERR194147)
+sample_path="/storage9/db/Illumina/Platinum/ERP001960/fastq"
+samples=(ERR194148)
 # sample_path="/ctg"
 # samples=(V19411-clone V26498-clone)
+
 ########## Define human reference genome path for creating gtester indices #####
 human_chr_path="/storage9/db/human_37/data/chr" # Each chr in separate file, cannot use multifasta files
 gtester_path="/storage9/db/kmer_indexes"
 gtester_prefix="${gtester_path}/human_37"
 gtester_index="${gtester_prefix}_25.index"
 gtester_names="${gtester_prefix}.names"
-############# Done with path settings #############################################
+# Precompiled index and name files can be downloaded from http://bioinfo.ut.ee/AluMine/
+############# Done with path settings #################################################################################
 
 
 #################### Generating gtester index file ###############################
@@ -74,14 +83,24 @@ for id in ${samples[@]}
 do
    echo "Starting REF-minus discovery for $id"
    if [ ! -s $id.gtester.input.txt ];then
-     # Define path to BAM files
-     infile="${sample_path}/${id}.bam"
-     if [ -s $infile ];then
-       samtools view $infile | perl find_ref_minus_candidates_bam.pl | sort  | uniq  >  $id.gtester.input.txt
+     # Define name of BAM files given the sample name
+     infile_bam="${sample_path}/${id}.bam"
+     # Define name to FASTQ files given the sample name. Multiple FASTQ files per sample permitted
+     infile_fastq="${sample_path}/${id}*.fastq"
+     # Define name to GZIPPED FASTQ files given the sample name. Multiple FASTQ files per sample permitted
+     infile_gzip="${sample_path}/${id}*.gz"
+
+     if [ -s $infile_bam ];then
+       # If the infile(s) are in BAM format use this script:
+       samtools view $infile_bam | perl find_ref_minus_candidates_bam.pl | sort  | uniq  >  $id.gtester.input.txt
+     elif [ `ls -1 $infile_fastq 2>/dev/null | wc -l ` -gt 0 ];then  # Check whether at least one file with this sample name
        # If the infile(s) are in FASTQ format use another script:
-       # cat $infile.fastq | perl find_ref_minus_candidates_fastq.pl | sort  | uniq  >  $id.gtester.input.txt
+       cat $infile_fastq | perl find_ref_minus_candidates_fastq.pl | sort  | uniq  >  $id.gtester.input.txt
+     elif [ `ls -1 $infile_gzip 2>/dev/null | wc -l ` -gt 0 ];then  # Check whether at least one file with this sample name
+       # If the infile(s) are in FASTQ format use another script:
+       cat $infile_gzip | gunzip | perl find_ref_minus_candidates_fastq.pl | sort  | uniq  >  $id.gtester.input.txt
      else
-       echo "$infile not found."
+       echo "$infile_bam or $infile_fastq not found."
      fi
    fi
 done
