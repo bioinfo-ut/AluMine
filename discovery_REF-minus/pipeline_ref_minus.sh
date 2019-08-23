@@ -15,8 +15,8 @@
 # if [ ! -s NA12892_S1.bam ];then
 #   wget http://bioinfo.ut.ee/FastGT/downloads/NA12892_S1.bam
 # fi
-#sample_path="."
-#samples=(NA12891_S1 NA12892_S1)
+sample_path="."
+samples=(NA12891_S1 NA12892_S1)
 
 ############# Alternatively define path and ID-s of your own samples: ##########
 # The sample names must be matched with BAM or FASTQ file names
@@ -27,8 +27,8 @@
 # samples=(V03287  V04319  V04696  V09393  V09650  V10501  V10676  V11780  V12862  V13558  V19326  V25032  V25613  V27254)
 # sample_path="/storage9/db/Illumina/Platinum/ERP001960/fastq"
 # samples=(ERR194146 ERR194147)
-sample_path="/storage9/db/Illumina/Platinum/ERP001960/fastq"
-samples=(ERR194148)
+# sample_path="/storage9/db/Illumina/Platinum/ERP001960/fastq"
+# samples=(ERR194148)
 # sample_path="/ctg"
 # samples=(V19411-clone V26498-clone)
 
