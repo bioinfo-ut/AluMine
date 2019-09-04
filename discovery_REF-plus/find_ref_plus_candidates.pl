@@ -36,13 +36,23 @@ open (KMER, ">", $kmerfilename) or die;
 # load chromosome sequence in
 foreach $chr (@chrs) {
   $chr_seq = "";
-  $chr_file = $chr_path . "/" . $chr . ".fa";
-  open (CHR,"$chr_file") or die "Could not open the chr file $chr_file\n";
+  $chr_file_name_1 = $chr_path . "/chr" . $chr . ".fna"; # Recent naming convention is chr1.fna
+  $chr_file_name_2 = $chr_path . "/" . $chr . ".fa";     # Older naming convention for chromosomes 1.fa
+  if (-s $chr_file_name_1) {
+    open (CHR,$chr_file_name_1);
+  }
+  elsif (-s $chr_file_name_2){
+    open (CHR, $chr_file_name_2);
+  }
+  else{
+    die "Could not open the chrosome fasta file. Make sure you have defined the correct path and use correct FASTA file names\n";
+  }
+
   while(<CHR>){
     chomp;
     next if /^\s*$/;
     next if /^\s*>/;
-    $chr_seq .= $_;
+    $chr_seq .= uc($_);
   }
   close(CHR);
   foreach $alu (@alus){
