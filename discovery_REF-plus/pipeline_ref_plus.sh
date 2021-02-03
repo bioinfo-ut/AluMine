@@ -13,10 +13,10 @@
 human_chr_path="/storage9/db/human_37/data/chr"
 chimp_chr_path="/storage9/db/chimp_214/data/chr"
 chimp_list_path="/storage9/db/kmer_lists/" # Must be writable
+chimp_list_filename="pan_troglodytes_32.list"
 
 # Create 32-mer list from the chimpanzee genome, if it does not yet exist.
 # NB! The list file size is ca 30 GB
-chimp_list_filename="pan_troglodytes_32.list"
 chimp_list="${chimp_list_path}/${chimp_list_filename}"
 if [ ! -f $chimp_list ];then
 	if [ ! -x glistmaker ];then
